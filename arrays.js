@@ -2,20 +2,11 @@ var array = [];
 
 initArray(array, 10);
 
-function initArray(arr, length) {
-    arr.length = length;
-    for (let i = 0; i < arr.length; i++) {
-        arr[i] = Math.ceil(Math.random() * 100);
-    }
-}
-
 console.log('\nINSERTION_SORT\n');
 console.log('Before : ' + array.join(' ') + ' -> after: ' + insertionSort(array).join(' '));
 
 console.log('\nQUICK_SORT\n');
-console.log('Before : ' + array.join(' ') + ' -> after: ' + array.slice().sort((a, b) => {
-    return a - b;
-}).join(' '));
+console.log('Before : ' + array.join(' ') + ' -> after: ' + quickSort(array).join(' '));
 
 console.log('\nMERGE_SORT\n');
 console.log('Before : ' + array.join(' ') + ' -> after: ' + mergeSort(array).join(' '));
@@ -29,9 +20,50 @@ console.log('Before : ' + array.join(' ') + ' -> after: ' + shellSort(array).joi
 console.log('\nCOUNTING_SORT\n');
 console.log('Before : ' + array.join(' ') + ' -> after: ' + countingSort(array).join(' '));
 
-console.log('\nMin element of array : ' + array.join(' ') + ' -> ' + getMin(array));
+let sqArray = [];
+initArraySq(sqArray, 5);
+console.log('\n--------------------------------------------\n');
+console.log('Square array\n');
+console.log(sqArray);
+console.log('\nMin element of square array -> ' + getMin(sqArray));
+console.log('\nMax element of array -> ' + getMax(sqArray));
+console.log('\nAverage value of all elements in square array -> ' + getAvg(sqArray));
 
-console.log('\nMax element of array : ' + array.join(' ') + ' -> ' + getMax(array));
+console.log('\nCreate triangles - not implemented :-(')
+
+console.log('\nSort array of objects by properties count, ascending and descending');
+// Input data
+let obj1 = {
+    a: 2,
+    c: 3,
+    d: 3
+};
+let obj2 = {
+    a: 1
+};
+let obj3 = {
+    a: 2,
+    c: 3
+};
+let arOfObj = [obj1, obj2, obj3];
+// Calling method
+console.log('ASC -> ');
+console.log(objSort(arOfObj, 'asc'));
+console.log('DESC -> ');
+console.log(objSort(arOfObj, 'desc'));
+
+function initArray(arr, length) {
+    for (let i = 0; i < length; i++) {
+        arr[i] = Math.ceil(Math.random() * 100);
+    }
+}
+
+function initArraySq(arr, length) {
+    for (let i = 0; i < length; i++) {
+        arr[i] = [];
+        initArray(arr[i], length);
+    }
+}
 
 function insertionSort(arr) {
     let arrCopy = arr.slice();
@@ -80,8 +112,25 @@ function merge(left, right) {
     return arr;
 }
 
+function quickSort(arr) {
+    if (arr.length <= 1)
+        return arr;
+
+    let left = [],
+        right = [],
+        pivot = arr[0];
+
+    for (let i = 1; i < arr.length; i++) {
+        arr[i] < pivot
+            ? left.push(arr[i])
+            : right.push(arr[i]);
+    }
+
+    return quickSort(left).concat(pivot, quickSort(right));
+}
+
 function bubleSort(arr) {
-  let arrCopy = arr.slice();
+    let arrCopy = arr.slice();
     if (arrCopy.length === 1) {
         return arrCopy;
     }
@@ -97,9 +146,7 @@ function bubleSort(arr) {
             }
         }
 
-    }
-    while (swapped)
-    return arrCopy;
+    } while (swapped)return arrCopy;
 }
 
 function shellSort(arr) {
@@ -131,7 +178,8 @@ function countingSort(arr) {
     let min = getMin(arr);
     let max = getMax(arr);
     let arrCopy = arr.slice();
-    let i, j = 0,
+    let i,
+        j = 0,
         count = [];
     for (i = min; i <= max; i++) {
         count[i] = 0;
@@ -147,22 +195,50 @@ function countingSort(arr) {
     return arrCopy;
 }
 
-function getMin(arr) {
-    let min = arr[0];
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i] < min) {
-            min = arr[i];
+function getMin(sqArr) {
+    let min = sqArr[0][0];
+    for (let i = 0; i < sqArr.length; i++) {
+        for (let j = 0; j < sqArr[i].length; j++) {
+            if (sqArr[i][j] < min) {
+                min = sqArr[i][j];
+            }
         }
     }
     return min;
 }
 
-function getMax(arr) {
-    let max = arr[0];
-    for (let i = 1; i < arr.length; i++) {
-        if (arr[i] > max) {
-            max = arr[i];
+function getMax(sqArr) {
+    let max = sqArr[0][0];
+    for (let i = 0; i < sqArr.length; i++) {
+        for (let j = 0; j < sqArr[i].length; j++) {
+            if (sqArr[i][j] > max) {
+                max = sqArr[i][j];
+            }
         }
     }
     return max;
+}
+
+function getAvg(sqArr) {
+    let sum = 0;
+    let rowLength = sqArr[0].length;
+    for (let i = 0; i < sqArr.length; i++) {
+        let x = sqArr[i].reduce(function(a, b) {
+            return a + b;
+        }, 0);
+        sum += x;
+    }
+    return sum / (sqArr.length * rowLength);
+}
+
+function objSort(arOfObj, direction) {
+    return arOfObj.sort(function(o1, o2) {
+      if(direction.toLowerCase() == 'asc') {
+          return Object.keys(o1).length - Object.keys(o2).length;
+      } else if(direction.toLowerCase() == 'desc'){
+          return Object.keys(o2).length - Object.keys(o1).length;
+      } else {
+        console.log('I don\'t know how to sort!');
+      }
+    });
 }
