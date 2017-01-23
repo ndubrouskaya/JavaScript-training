@@ -1,19 +1,19 @@
 /*
-Given two strings(digits which maybe separated by letters), return sum of all
+Given two strings(digits which maybe separated by varters), return sum of all
 numbers in this strings, don't forget to check if string is a hexadecimal number.
 For advanced part you may want to create sum of all digits in parsed numbers
 include hexadecimal digits (A, B, C, D, E, F);
 */
-console.log('\n------------Two string sum------------\n');
-let str1 = '123x1z13',
+console.log('\nTwo string sum\n');
+var str1 = '123x1z13',
     str2 = 'a123';
 // 123113 + 0xA123 = 164364
 function getSum(str1, str2) {
-    let int1 = modifyStr(str1);
-    let int2 = modifyStr(str2);
-    let hexPattern = /^0x[a-f0-9]+$/i;
+    var int1 = modifyStr(str1);
+    var int2 = modifyStr(str2);
+    var hexPattern = /^0x[a-f0-9]+$/i;
     console.log(int1 + ' + ' + int2 + ' ->');
-    let sum = parseInt(int1, (hexPattern).test(int1) ? 16 : 10) + parseInt(int2, (hexPattern).test(int2) ? 16 : 10);
+    var sum = parseInt(int1, (hexPattern).test(int1) ? 16 : 10) + parseInt(int2, (hexPattern).test(int2) ? 16 : 10);
     console.log(sum);
 }
 
@@ -36,13 +36,13 @@ var output = {     key: 'value',     key1: 'value1',
 };
 */
 
-console.log('\n------------SemiColonSON------------\n');
-let data = ";key,value;key1,value;key3,value3;";
+console.log('\nSemiColonSON\n');
+var data = ";key,value;key1,value;key3,value3;";
 function parseData(data) {
-    let output = {};
-    let dataArray = data.split(';').filter((value) => value != '');
-    for (let i = 0; i < dataArray.length; i++) {
-        let keyValueArr = dataArray[i].split(',');
+    var output = {};
+    var dataArray = data.split(';').filter(function(value) { return value != '';});
+    for (var i = 0; i < dataArray.length; i++) {
+        var keyValueArr = dataArray[i].split(',');
         Object.defineProperty(output, keyValueArr[0], {
             value: keyValueArr[1],
             enumerable: true
@@ -51,5 +51,5 @@ function parseData(data) {
     return output;
 }
 
-let output = parseData(data);
+var output = parseData(data);
 console.log(output);

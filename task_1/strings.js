@@ -41,11 +41,11 @@ function isStartsWith(str, subStr) {
 };
 
 function isCamelCase(str) {
-    let regExp = new RegExp(/\b([A-Z]*[a-z]+([A-Z][a-z]+)+)\b/);
+    var regExp = new RegExp(/\b([A-Z]*[a-z]+([A-Z][a-z]+)+)\b/);
     return regExp.test(str);
 }
 
 function isPascalCase(str) {
-    let regExp = new RegExp(/\b([A-Z]*[a-z]+(_[A-Z]*[a-z]+)+)\b/);
+    var regExp = new RegExp(/\b([A-Z]*[a-z]+(_[A-Z]*[a-z]+)+)\b/);
     return regExp.test(str);
 }
